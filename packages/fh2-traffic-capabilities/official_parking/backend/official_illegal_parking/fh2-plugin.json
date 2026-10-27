@@ -1,0 +1,15 @@
+{
+  "pluginId": "official_illegal_parking",
+  "name": "后端插件-行业能力-违停巡逻抓拍",
+  "description": "违停巡逻抓拍。计划库下发一条 biz_ext 带 es-patrol 的飞行任务时由通知拉起，流程负责：等起飞确认 → 拉起执行会话并占坑 → 等扫描完成 → 悬停等复检间隔 → 等复检完成 → 给用户 30 秒反悔 → 返航 → 等落地 → 回写事件状态。一条流程、零脚本、零连接器：巡逻里没有需要在运行期改逻辑的步骤，全部下游触达都由平台受控步骤完成，插件脚本不能直接调用飞行函数；不访问任何客户系统。",
+  "version": "1.0.0",
+  "flows": [
+    "workflows/patrol-capture.json"
+  ],
+  "eventStatuses": [
+    "pending",
+    "patrolling",
+    "completed",
+    "terminated"
+  ]
+}

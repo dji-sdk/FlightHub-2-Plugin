@@ -1,0 +1,85 @@
+{
+  "pluginId": "official_accident_plugin",
+  "name": "后端插件-行业能力-事故快处测试",
+  "description": "事故快处级联警情采集与处置编排。采集 Adapter 为 Worker 可装载的 TypeScript 源码。",
+  "version": "1.0.7",
+  "contractsRange": ">=1.1.0 <2.0.0",
+  "allowlist": [
+    "egress:fetch",
+    "config:get",
+    "event:write"
+  ],
+  "flows": [
+    "workflows/cascade-ingest.json",
+    "workflows/accident-response-cascade.json"
+  ],
+  "scripts": [
+    {
+      "description": "级联警情定时采集 Adapter。",
+      "name": "cascade-ingest",
+      "path": "adapters/cascade-ingest.ts",
+      "entry": "handle",
+      "allowlist": ["egress:fetch", "config:get", "event:write"],
+      "io": {
+        "inputs": [
+          { "name": "windowTo", "type": "string", "required": true },
+          { "name": "intervalSec", "type": "number", "required": true }
+        ],
+        "outputs": [
+          { "name": "fetched", "type": "number", "required": true },
+          { "name": "inserted", "type": "number", "required": true },
+          { "name": "windowFrom", "type": "string", "required": true },
+          { "name": "windowTo", "type": "string", "required": true }
+        ]
+      }
+    }
+  ],
+  "connections": [
+    {
+      "description": "级联平台(警情来源)。只声明键名,值在部署侧 config.yaml 里。",
+      "id": "traffic.connector.cascade",
+      "requires": [
+        {
+          "name": "baseUrl",
+          "type": "string",
+          "required": true,
+          "description": "级联平台根地址,不带尾斜杠;本地联调指向 cmd/mockupstream。"
+        },
+        {
+          "name": "loginName",
+          "type": "string",
+          "required": true,
+          "description": "级联平台 /api/sso/login 的账号。"
+        },
+        {
+          "name": "password",
+          "type": "string",
+          "required": true,
+          "secret": true,
+          "description": "上面那个账号的口令。密钥:启动日志只打已配置/未配置。"
+        },
+        {
+          "name": "source",
+          "type": "number",
+          "required": true,
+          "description": "级联 login 的 source 参数,收数字(YAML 里别加引号)。"
+        },
+        {
+          "name": "tenantId",
+          "type": "string",
+          "required": false,
+          "description": "写进事件模型的租户标识;留空由事件模型那侧兜底。"
+        }
+      ]
+    }
+  ],
+  "eventStatuses": [
+    "unacknowledged",
+    "acknowledged",
+    "handling",
+    "completed",
+    "ack_timeout",
+    "ignored",
+    "terminated"
+  ]
+}

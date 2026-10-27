@@ -1,0 +1,11 @@
+[
+  {
+    "packageId": "official_traffic_police",
+    "name": "交通警务",
+    "capabilityIds": [
+      "official_accident",
+      "official_parking",
+      "official_capture"
+    ]
+  }
+]

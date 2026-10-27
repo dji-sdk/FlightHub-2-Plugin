@@ -1,0 +1,101 @@
+{
+  "name": "accident-response-cascade",
+  "description": "事故快处:一张依赖图,每步靠 needs 与 trigger 声明依赖。",
+  "trigger": {
+    "description": "只由事件消息启动;api 入口已删,start 端点回 403。",
+    "stream": {
+      "description": "按 match(AND)挑事件消息;status 须在 eventStatuses 里列过。",
+      "match": { "status": "unacknowledged", "event_type": "警情" },
+      "seed": ["eventId", "eventType", "occurredAt", "priority", "lat", "lng", "payload"]
+    }
+  },
+  "steps": [
+    {
+      "id": "ack",
+      "action": "wait_signal",
+      "await": { "signal": "acknowledge", "timeoutSec": 3600 },
+      "description": "等签收,1 小时超时;超时是本步终态,下游自动跳过。"
+    },
+    {
+      "id": "mark_ack",
+      "action": "update_event_status",
+      "needs": ["ack"],
+      "inputs": { "status": { "const": "acknowledged" }, "eventId": { "from": "trigger.eventId" } },
+      "when": { "field": "trigger.eventId", "op": "present" },
+      "description": "签收后回写 acknowledged;没有 eventId 的入口整步跳过。"
+    },
+    {
+      "id": "pick",
+      "action": "wait_signal",
+      "needs": ["ack"],
+      "await": { "signal": "route_selected", "provides": [{ "key": "waylineUuid", "type": "string" }, { "key": "dockSn", "type": "string" }, { "key": "projectUuid", "type": "string" }], "interruptedBy": ["ignore"] },
+      "description": "等选路承诺;三个键对应下游必填,唯一可被 ignore 打断的挂起点。"
+    },
+    {
+      "id": "dispatch",
+      "action": "dispatch_mission",
+      "needs": ["pick"],
+      "inputs": { "waylineUuid": { "from": "steps.pick.waylineUuid" }, "dockSn": { "from": "steps.pick.dockSn" }, "projectUuid": { "from": "steps.pick.projectUuid" } },
+      "description": "下发飞行计划。needs 只列 pick:入参全来自它,与事件回写无关。"
+    },
+    {
+      "id": "mark_handling",
+      "action": "update_event_status",
+      "needs": ["dispatch", "mark_ack"],
+      "inputs": { "status": { "const": "handling" }, "eventId": { "from": "trigger.eventId" }, "flightMissionId": { "from": "steps.dispatch.missionId" } },
+      "when": { "field": "trigger.eventId", "op": "present" },
+      "description": "派遣成功后回写 handling;needs 里的 mark_ack 只买顺序。"
+    },
+    {
+      "id": "poll",
+      "action": "query_flight_task",
+      "needs": ["dispatch"],
+      "inputs": { "missionId": { "from": "steps.dispatch.missionId" }, "untilStatusIn": { "const": [1, 4, 5, 7, 8] }, "everySec": { "const": 15 } },
+      "timeoutSec": 1800,
+      "description": "轮询飞行计划到终态(1/4/5/7/8),30 分钟封顶;只读、可重试。"
+    },
+    {
+      "id": "close_ack_timeout",
+      "action": "update_event_status",
+      "needs": ["ack"],
+      "trigger": "allDone",
+      "inputs": { "status": { "const": "ack_timeout" }, "eventId": { "from": "trigger.eventId" } },
+      "when": { "and": [{ "field": "trigger.eventId", "op": "present" }, { "field": "steps.ack.$state", "op": "eq", "value": "timedOut" }] },
+      "description": "无人签收超时 → 写 ack_timeout(allDone 收尾节点)。"
+    },
+    {
+      "id": "close_ignored",
+      "action": "update_event_status",
+      "needs": ["pick", "mark_ack"],
+      "trigger": "allDone",
+      "inputs": { "status": { "const": "ignored" }, "eventId": { "from": "trigger.eventId" } },
+      "when": { "and": [{ "field": "trigger.eventId", "op": "present" }, { "field": "steps.pick.$state", "op": "eq", "value": "interrupted" }] },
+      "description": "pick 被 ignore 打断 → 写 ignored(allDone 收尾节点)。"
+    },
+    {
+      "id": "mark_completed",
+      "action": "update_event_status",
+      "needs": ["poll", "mark_handling"],
+      "inputs": { "status": { "const": "completed" }, "eventId": { "from": "trigger.eventId" } },
+      "when": { "and": [{ "field": "trigger.eventId", "op": "present" }, { "field": "steps.poll.taskStatus", "op": "in", "value": [5] }] },
+      "description": "飞行正常结束(taskStatus=5)→ 写 completed。"
+    },
+    {
+      "id": "mark_terminated",
+      "action": "update_event_status",
+      "needs": ["poll", "mark_handling"],
+      "inputs": { "status": { "const": "terminated" }, "eventId": { "from": "trigger.eventId" } },
+      "when": { "and": [{ "field": "trigger.eventId", "op": "present" }, { "field": "steps.poll.taskStatus", "op": "in", "value": [1, 4, 7, 8] }] },
+      "description": "飞行没飞成(1/4/7/8)→ 写 terminated;8 不算成功。"
+    },
+    {
+      "id": "close_error",
+      "action": "update_event_status",
+      "needs": ["dispatch", "poll", "mark_handling"],
+      "trigger": "allDone",
+      "inputs": { "status": { "const": "terminated" }, "eventId": { "from": "trigger.eventId" } },
+      "when": { "and": [{ "field": "trigger.eventId", "op": "present" }, { "or": [{ "field": "steps.dispatch.$state", "op": "eq", "value": "failed" }, { "field": "steps.poll.$state", "op": "eq", "value": "failed" }] }] },
+      "description": "dispatch 或 poll 失败 → 写 terminated(allDone 收尾节点)。"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "id": "official_parking_patrol",
+  "name": "违停巡逻",
+  "version": "1.1.1",
+  "description": "违停巡逻：计划库任务标记、任务面板、抓拍记录、证据预览与返航/终止",
+  "author": "FH2 插件平台团队",
+  "entry": "./plugin.js",
+  "permissions": [
+    "platform:http",
+    "platform:websocket",
+    "platform:notification",
+    "platform:dialog",
+    "platform:map",
+    "platform:wpmz",
+    "plan:form-context",
+    "cockpit:context",
+    "cockpit:flight-task"
+  ],
+  "extensions": [
+    {
+      "id": "patrol-menubar",
+      "point": "cockpit.ui.menubar"
+    },
+    {
+      "id": "patrol-records",
+      "point": "cockpit.ui.left-panel"
+    },
+    {
+      "id": "patrol-preview",
+      "point": "cockpit.ui.sublive-tab"
+    },
+    {
+      "id": "patrol-task-panel",
+      "point": "cockpit.ui.live-overlay",
+      "stream": "DronePayload",
+      "overlayLevel": "normal"
+    },
+    {
+      "id": "patrol-form",
+      "point": "plan.form-extensions",
+      "planType": "normal",
+      "anchor": "task-strategy:after"
+    }
+  ],
+  "views": {
+    "patrol-task-panel": {
+      "entry": "./views/patrol-task-panel.js"
+    },
+    "patrol-records": {
+      "entry": "./views/patrol-records.js"
+    },
+    "patrol-preview": {
+      "entry": "./views/patrol-preview.js"
+    },
+    "patrol-dialog": {
+      "entry": "./views/patrol-dialog.js"
+    },
+    "patrol-form": {
+      "entry": "./views/patrol-form.js"
+    }
+  },
+  "config": {
+    "enableMock": {
+      "type": "boolean",
+      "default": false,
+      "label": "启用违停巡逻模拟数据源（演示用）"
+    }
+  },
+  "contributes": {
+    "icons": [
+      {
+        "id": "patrol-icon",
+        "src": "./icons/patrol-icon.svg"
+      }
+    ]
+  }
+}

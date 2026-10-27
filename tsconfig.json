@@ -1,0 +1,1 @@
+{"exclude":["**/dist/**","**/node_modules/**","packages/fh2-plugin-toolchain/template*/**"],"extends":"./tsconfig.base.json","include":["packages/fh2-plugin-sdk/src/**/*.ts","packages/fh2-plugin-toolchain/src/**/*.ts","*.ts"]}

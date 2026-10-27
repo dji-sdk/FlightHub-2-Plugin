@@ -1,0 +1,39 @@
+{
+  "pluginId": "exp_contract_backend",
+  "name": "契约测试后端",
+  "version": "0.1.0",
+  "description": "用于验证公开后端契约的完整插件。",
+  "contractsRange": ">=1.1.0 <2.0.0",
+  "allowlist": ["data:read", "data:write"],
+  "entities": [
+    {
+      "name": "example_record",
+      "fields": {
+        "title": { "type": "string", "indexed": true },
+        "processed": { "type": "boolean" }
+      }
+    }
+  ],
+  "flows": ["workflows/example-flow.json"],
+  "connections": [],
+  "scripts": [
+    {
+      "name": "example-script",
+      "path": "adapters/example-script.js",
+      "entry": "handle",
+      "io": {
+        "inputs": [{ "name": "title", "type": "string", "required": true }],
+        "outputs": [{ "name": "id", "type": "string" }]
+      }
+    }
+  ],
+  "events": [
+    {
+      "type": "example.created",
+      "consumer": [
+        { "handler": "events/example-created.js", "entry": "onExampleCreated" }
+      ]
+    }
+  ],
+  "eventStatuses": []
+}

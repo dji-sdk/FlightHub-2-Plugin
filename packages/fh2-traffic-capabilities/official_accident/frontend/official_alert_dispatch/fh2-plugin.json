@@ -1,0 +1,42 @@
+{
+  "id": "official_alert_dispatch",
+  "name": "警情派遣",
+  "version": "0.2.1",
+  "description": "手工构造事故快处警情并派发到事件中心",
+  "author": "FH2 插件平台团队",
+  "entry": "./plugin.js",
+  "permissions": [
+    "platform:http"
+  ],
+  "extensions": [
+    {
+      "id": "alert-dispatch-sidebar-action",
+      "point": "project.sidebar-actions",
+      "path": "/alert-dispatch",
+      "position": 2
+    }
+  ],
+  "views": {
+    "dispatch-form": {
+      "entry": "./views/dispatch-form.js"
+    },
+    "dispatch-workspace": {
+      "entry": "./views/dispatch-workspace.js"
+    }
+  },
+  "contributes": {
+    "icons": [
+      {
+        "id": "alert-dispatch",
+        "src": "./static/icons/dispatch.svg"
+      }
+    ]
+  },
+  "config": {
+    "enableWorkspaceTest": {
+      "type": "boolean",
+      "default": false,
+      "label": "启用工作区测试渲染"
+    }
+  }
+}

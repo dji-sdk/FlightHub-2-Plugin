@@ -1,0 +1,15 @@
+{
+  "name": "fh2-plugin-dev-skill",
+  "version": "0.1.0",
+  "private": true,
+  "description": "FH2 插件全流程开发 Skill：需求规划、环境自举、前后端插件生成、校验调试与打包交付",
+  "license": "Apache-2.0",
+  "files": [
+    "SKILL.md",
+    "references",
+    "scripts"
+  ],
+  "scripts": {
+    "test": "node --test tests/*.test.cjs"
+  }
+}

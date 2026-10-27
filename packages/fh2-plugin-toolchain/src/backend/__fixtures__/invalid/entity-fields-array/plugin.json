@@ -1,0 +1,11 @@
+{
+  "pluginId": "exp_invalid_entity",
+  "name": "非法实体",
+  "version": "0.1.0",
+  "entities": [
+    {
+      "name": "example_record",
+      "fields": [{ "name": "title", "type": "string" }]
+    }
+  ]
+}

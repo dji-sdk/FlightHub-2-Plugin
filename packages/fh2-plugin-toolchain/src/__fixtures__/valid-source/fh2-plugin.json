@@ -1,0 +1,14 @@
+{
+  "id": "exp_manifest_fixture",
+  "name": "清单测试插件",
+  "version": "0.1.0",
+  "entry": "./plugin.js",
+  "permissions": ["platform:dialog"],
+  "extensions": [
+    {
+      "id": "fixture-action",
+      "point": "cockpit.ui.toolbar-actions",
+      "anchor": "footer-toolbar:before-ai"
+    }
+  ]
+}

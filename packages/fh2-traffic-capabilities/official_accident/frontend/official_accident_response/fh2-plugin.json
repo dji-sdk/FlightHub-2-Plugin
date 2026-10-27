@@ -1,0 +1,96 @@
+{
+  "id": "official_accident_response",
+  "name": "事故快处",
+  "version": "0.2.1",
+  "description": "事故警情接收、路线预览、派遣与处置反馈",
+  "author": "FH2 插件平台团队",
+  "entry": "./plugin.js",
+  "permissions": [
+    "platform:http",
+    "platform:websocket",
+    "platform:navigation",
+    "platform:location",
+    "platform:notification",
+    "platform:dialog",
+    "platform:map",
+    "platform:clipboard",
+    "platform:wayline-preview",
+    "platform:wpmz",
+    "platform:devices",
+    "cockpit:context",
+    "cockpit:telemetry",
+    "cockpit:scene-geometry",
+    "cockpit:flight-control",
+    "cockpit:flight-task",
+    "cockpit:gimbal",
+    "project:context"
+  ],
+  "extensions": [
+    {
+      "id": "accident-return-route-action",
+      "point": "cockpit.ui.flight-actions",
+      "anchor": "flight-actions:after-return-home"
+    },
+    {
+      "id": "accident-return-route-panel",
+      "point": "cockpit.ui.live-overlay",
+      "overlayLevel": "top"
+    },
+    {
+      "id": "accident-approach-target",
+      "point": "cockpit.ui.live-context-menu"
+    },
+    {
+      "id": "accident-alert-popup",
+      "point": "message.alert-popups"
+    },
+    {
+      "id": "accident-sidebar-action",
+      "point": "project.sidebar-actions",
+      "path": "/accident-response",
+      "position": 1
+    }
+  ],
+  "views": {
+    "dispatch-card": {
+      "entry": "./views/dispatch-card.js"
+    },
+    "accident-list": {
+      "entry": "./views/accident-list.js"
+    },
+    "all-events-dialog": {
+      "entry": "./views/all-events-dialog.js"
+    },
+    "return-route-panel": {
+      "entry": "./views/return-route-panel.js"
+    }
+  },
+  "contributes": {
+    "icons": [
+      {
+        "id": "accident-alert",
+        "src": "./static/icons/alert.svg"
+      },
+      {
+        "id": "action-return-home",
+        "src": "./static/icons/return-home.svg"
+      },
+      {
+        "id": "action-position-warning",
+        "src": "./static/icons/position-warning.svg"
+      }
+    ]
+  },
+  "config": {
+    "enableMultiAngle": {
+      "type": "boolean",
+      "default": false,
+      "label": "启用多视角处置"
+    },
+    "flowName": {
+      "type": "string",
+      "default": "accident-response-cascade",
+      "label": "事故快处流程名称"
+    }
+  }
+}

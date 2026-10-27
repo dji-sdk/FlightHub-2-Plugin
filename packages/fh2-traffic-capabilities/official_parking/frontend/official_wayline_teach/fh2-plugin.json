@@ -1,0 +1,56 @@
+{
+  "id": "official_wayline_teach",
+  "name": "示教航线",
+  "version": "0.3.1",
+  "description": "人工示教录点、航点编辑、截图上传与航线生成",
+  "author": "FH2 插件平台团队",
+  "entry": "./plugin.js",
+  "permissions": [
+    "platform:http",
+    "platform:events",
+    "platform:notification",
+    "platform:dialog",
+    "platform:object-upload",
+    "platform:devices",
+    "cockpit:context",
+    "cockpit:telemetry",
+    "cockpit:ai-config",
+    "cockpit:camera",
+    "cockpit:scene-geometry",
+    "cockpit:hotkeys"
+  ],
+  "extensions": [
+    {
+      "id": "wayline-teach-entry",
+      "point": "cockpit.ui.toolbar-actions",
+      "anchor": "footer-toolbar:before-ai"
+    },
+    {
+      "id": "wayline-teach-panel",
+      "point": "cockpit.ui.left-bottom-panels"
+    }
+  ],
+  "views": {
+    "teach-panel": {
+      "entry": "./views/teach-panel.js"
+    },
+    "teach-dialog": {
+      "entry": "./views/teach-dialog.js"
+    }
+  },
+  "contributes": {
+    "icons": [
+      {
+        "id": "wayline-teach",
+        "src": "./icons/wayline-teach.svg"
+      }
+    ]
+  },
+  "config": {
+    "enableMock": {
+      "type": "boolean",
+      "default": false,
+      "label": "启用示教模拟数据"
+    }
+  }
+}

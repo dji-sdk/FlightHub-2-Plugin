@@ -1,0 +1,31 @@
+<!-- SPDX-License-Identifier: Apache-2.0
+  Copyright (c) 2026 SZ DJI Technology Co., Ltd. -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>司空插件 Web IDE</title>
+  </head>
+  <body>
+    <div id="app">
+      <div class="boot">正在连接 fh2-plugin serve…</div>
+    </div>
+    <script>
+      /**
+       * 产物用相对资源路径（vite base './'）以适配任意挂载点，代价是深路径下
+       * `./assets/*` 会相对深目录解析而 404。Web IDE 没有客户端路由，深路径只可能
+       * 来自契约 §3 的 SPA 回落，因此先同步跳回挂载点，再让模块脚本加载。
+       * 必须在 module 脚本之前、且在服务端注入的 __FH2_IDE_BASE__ 之后执行。
+       */
+      ;(function () {
+        var base = window.__FH2_IDE_BASE__ || '/'
+        if (base.charAt(base.length - 1) !== '/') base += '/'
+        if (window.location.pathname !== base) {
+          window.location.replace(base + window.location.search + window.location.hash)
+        }
+      })()
+    </script>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

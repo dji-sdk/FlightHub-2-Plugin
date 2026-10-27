@@ -1,0 +1,14 @@
+{
+  "name": "example-flow",
+  "trigger": { "api": {} },
+  "steps": [
+    {
+      "id": "run-example-script",
+      "action": "run_script",
+      "inputs": {
+        "script": { "const": "example-script" },
+        "title": { "from": "trigger.title" }
+      }
+    }
+  ]
+}

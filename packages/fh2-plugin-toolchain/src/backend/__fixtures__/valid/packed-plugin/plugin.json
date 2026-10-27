@@ -1,0 +1,15 @@
+{
+  "pluginId": "exp_packed_backend",
+  "name": "打包后契约测试",
+  "version": "0.1.0",
+  "flows": ["workflows/packed-flow.json"],
+  "scripts": [],
+  "events": [
+    {
+      "type": "example.packed",
+      "consumer": [
+        { "handler": "events/example-packed.js", "entry": "onPackedEvent" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "lane-change-postprocess",
+  "description": "变道视频后处理。只能被插件的事件 handler 用 flow.start 启动。",
+  "steps": [
+    {
+      "id": "postprocess",
+      "action": "run_script",
+      "description": "整条后处理只有一步：取时间基线、取轨迹、判定、抽帧(带标注烧录)剪片并落证据。抽帧与剪片各要整段下载视频，大录像远超 300s，故配 1800s。maxAttempts=10：第一步 objectTrack 读的 MOT sidecar 由检测管线在视频事件之后 41~97s(实录最长约 5 分钟)才落桶，脚本对「找不到 sidecar」原样抛出走重试，默认 5 次约 15s 必然先耗尽。",
+      "timeoutSec": 1800,
+      "maxAttempts": 10,
+      "inputs": {
+        "script": {"const": "lane-change-postprocess"},
+        "event_id": {"from": "trigger.event_id"},
+        "video_file_id": {"from": "trigger.video_file_id"},
+        "video_object_key": {"from": "trigger.video_object_key"}
+      }
+    }
+  ],
+  "trigger": {
+    "job": {
+      "description": "由 events/media-video-created.ts 在视频回调匹配到 pending_video 事件后启动。",
+      "seed": ["event_id", "video_file_id", "video_object_key"]
+    }
+  }
+}

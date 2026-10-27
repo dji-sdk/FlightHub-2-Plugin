@@ -1,0 +1,15 @@
+{
+  "extends": "../../../../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": [],
+    "noEmit": true
+  },
+  "include": [
+    "handlers/**/*.ts",
+    "events/**/*.ts",
+    "adapters/**/*.ts",
+    "shared/**/*.ts",
+    "tests/**/*.ts",
+    "types/**/*.ts"
+  ]
+}

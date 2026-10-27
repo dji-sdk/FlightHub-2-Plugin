@@ -1,0 +1,18 @@
+node_modules/
+**/dist/
+# 交付资源：Mock Host 预构建包内部的 dist 是 manifest 声明的固定资源，不是本地构建输出
+!packages/fh2-plugin-toolchain/runtime-assets/mock-host/*/dist/
+!packages/fh2-plugin-toolchain/runtime-assets/mock-host/*/dist/**
+**/release/
+**/coverage/
+**/.fh2/
+packages/fh2-plugin-toolchain/apps/
+# 防止 ISV 本地开发时误提交凭据与本地产物
+.env
+*.key
+*.pem
+*.jks
+*.p12
+secrets.*
+credentials.*
+.DS_Store

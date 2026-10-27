@@ -1,0 +1,33 @@
+// 本文件由 fh2-plugin generate 生成，请勿手改。
+// 来源 Manifest: exp_hello@1.0.0
+
+export type ExtensionId =
+  | 'hello-action'
+  | 'settings-field'
+  | 'second-action'
+
+export interface ExtensionsByHost {
+  readonly cockpit: 'hello-action' | 'second-action';
+  readonly plan: 'settings-field';
+}
+
+export type ViewId =
+  | 'hello-settings'
+  | 'hello-panel'
+
+export interface PluginConfig {
+  readonly enabled: boolean;
+  readonly retries: number;
+  readonly level: 'info' | 'warn';
+  readonly 'action-label': string;
+}
+
+export type AppCockpitContext = import('fh2-plugin-sdk').CockpitPluginContext<PluginConfig, {
+  readonly 'hello-action': 'cockpit.ui.toolbar-actions';
+  readonly 'second-action': 'cockpit.ui.menubar';
+}>
+export type AppPlanContext = import('fh2-plugin-sdk').PluginContext<PluginConfig, {
+  readonly 'settings-field': 'plan.form-extensions';
+}>
+
+export type { CockpitPluginContext, PluginContext } from 'fh2-plugin-sdk'

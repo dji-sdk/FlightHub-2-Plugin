@@ -1,0 +1,13 @@
+{
+  "name": "packed-flow",
+  "trigger": { "api": {} },
+  "steps": [
+    {
+      "id": "run-packed-adapter",
+      "action": "run_script",
+      "inputs": {
+        "script": { "const": "packed-adapter" }
+      }
+    }
+  ]
+}

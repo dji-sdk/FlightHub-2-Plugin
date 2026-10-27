@@ -1,0 +1,12 @@
+packages:
+  - packages/fh2-plugin-sdk
+  - packages/fh2-plugin-toolchain
+  - packages/fh2-traffic-capabilities/*/frontend/*
+  - packages/fh2-traffic-capabilities/*/backend/*
+
+linkWorkspacePackages: true
+onlyBuiltDependencies:
+  - esbuild
+ignoredBuiltDependencies:
+  - core-js
+  - unrs-resolver

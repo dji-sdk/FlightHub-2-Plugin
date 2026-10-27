@@ -1,0 +1,107 @@
+{
+  "id": "official_traffic_capture",
+  "name": "交通抓拍（变道/行人上路）",
+  "version": "1.1.2",
+  "description": "违章变道抓拍 + 行人上路抓拍：手动标注、违规检测、行人跟踪、证据记录、地图标记与告警",
+  "author": "FH2 插件平台团队",
+  "entry": "./plugin.js",
+  "permissions": [
+    "platform:http",
+    "platform:websocket",
+    "platform:storage",
+    "platform:notification",
+    "platform:audio",
+    "platform:dialog",
+    "platform:map",
+    "platform:navigation",
+    "cockpit:context",
+    "cockpit:telemetry",
+    "cockpit:camera",
+    "cockpit:detection",
+    "cockpit:scene-geometry",
+    "cockpit:ai-config",
+    "cockpit:live-pointer",
+    "cockpit:smart-track",
+    "cockpit:gimbal",
+    "cockpit:hotkeys"
+  ],
+  "extensions": [
+    {
+      "id": "traffic-capture-popover-entry",
+      "point": "cockpit.ui.toolbar-actions",
+      "anchor": "footer-toolbar:before-ai"
+    },
+    {
+      "id": "capture-records",
+      "point": "cockpit.ui.left-panel"
+    },
+    {
+      "id": "capture-preview",
+      "point": "cockpit.ui.sublive-tab"
+    },
+    {
+      "id": "lane-change-workbench",
+      "point": "cockpit.ui.left-bottom-panels"
+    },
+    {
+      "id": "lane-change-annotation-canvas",
+      "point": "cockpit.ui.live-overlay",
+      "overlayLevel": "normal"
+    },
+    {
+      "id": "person-road-skip-hint",
+      "point": "cockpit.ui.live-overlay",
+      "overlayLevel": "normal"
+    },
+    {
+      "id": "capture-alert-toast",
+      "point": "cockpit.ui.live-overlay",
+      "overlayLevel": "normal"
+    }
+  ],
+  "views": {
+    "capture-settings": {
+      "entry": "./views/capture-settings.js"
+    },
+    "lane-change-workbench": {
+      "entry": "./views/lane-change-workbench.js"
+    },
+    "lane-change-rename-dialog": {
+      "entry": "./views/lane-change-rename-dialog.js"
+    },
+    "lane-change-annotation-canvas": {
+      "entry": "./views/lane-change-annotation-canvas.js"
+    },
+    "capture-records": {
+      "entry": "./views/capture-records.js"
+    },
+    "capture-evidence-preview": {
+      "entry": "./views/capture-evidence-preview.js"
+    },
+    "person-road-skip-hint": {
+      "entry": "./views/person-road-skip-hint.js"
+    },
+    "capture-alert-toast": {
+      "entry": "./views/capture-alert-toast.js"
+    }
+  },
+  "config": {
+    "enableMock": {
+      "type": "boolean",
+      "default": false,
+      "label": "启用交通抓拍 Mock 后端（后端不可用时联调；设备能力保持真实）"
+    }
+  },
+  "contributes": {
+    "icons": [
+      {
+        "id": "traffic-capture",
+        "src": "./icons/cockpit-violation.svg"
+      },
+      {
+        "id": "cockpit-violation-event",
+        "src": "./icons/cockpit-violation-event.svg"
+      }
+    ]
+  }
+}

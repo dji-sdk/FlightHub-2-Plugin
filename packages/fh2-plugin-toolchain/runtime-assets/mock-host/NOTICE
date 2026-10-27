@@ -1,0 +1,302 @@
+Mock Host Workbench 预构建资源第三方归因
+========================================
+
+适用范围
+--------
+本 NOTICE 覆盖仓库 `runtime-assets/mock-host/` 下三个 App 的预构建 JavaScript 产物：
+shell（Mock 宿主 Shell，qiankun 微前端）、vue2（project Host 子应用）、
+vue3（cockpit/plan/message Host 子应用）。
+
+下表登记预构建资源的第三方运行时成分，完整归因与许可见仓库根 NOTICE。
+
+chunk 文件名带内容哈希，会随代码变化。请以实际生成的 `*.LICENSE.txt` 伴随文件为准，
+不要依赖固定数字。没有独立伴随文件的组件，以本文件或仓库根
+`NOTICE` 的对应章节为许可依据。
+
+内嵌成分
+--------
+shell（Mock 宿主 Shell，Vue 2.7 + qiankun）：
+- Vue 2.7.16 — MIT — static/js/lib-vue.*.js.LICENSE.txt
+- vue-loader 15.11.1（SFC runtime） — MIT — 本文件 MIT 节
+- qiankun 2.8.1 — MIT — 本文件 MIT 节
+- single-spa 5.9.5 — MIT — 本文件 MIT 节
+- import-html-entry 1.17.0 — MIT — 本文件 MIT 节
+- lodash 4.18.1 — MIT（含 OpenJS/Underscore 声明与 CC0 样例条款） — 本文件 lodash 节
+- @babel/runtime 7.29.7 — MIT — 本文件 MIT 节
+- regenerator-runtime 0.11.1（经 @babel/runtime 的 regenerator helper） — MIT — static/js/*.LICENSE.txt
+- ajv 8.20.0 — MIT — 本文件 MIT 节
+- fast-deep-equal 3.1.3 — MIT — 本文件 MIT 节
+- fast-uri 3.1.8 — BSD-3-Clause — 本文件 BSD 节
+- json-schema-traverse 1.0.0 — MIT — 本文件 MIT 节
+- semver 7.8.5 — ISC — 本文件 ISC 节
+- qrcode 1.5.4 — MIT — 本文件 MIT 节
+- dijkstrajs 1.0.3（qrcode 传递） — MIT — 本文件 dijkstrajs 节
+- core-js-pure 3.50.0 — MIT — 本文件 MIT 节
+- @swc/helpers 0.5.23 — Apache-2.0 — 仓库根 NOTICE 第4.2节
+- postcss-value-parser 4.2.0 — MIT — 本文件 MIT 节
+- Lucide 图标 — ISC — lucide-LICENSE.txt
+
+vue2（Vue 2.7 Host 子应用）：
+- Vue 2.7.16 — MIT — static/js/lib-vue.*.js.LICENSE.txt
+- vue-loader 15.11.1（SFC runtime） — MIT — 本文件 MIT 节
+- ant-design-vue 1.7.8（Tooltip） — MIT（ant-design-vue + Alipay） — 本文件 ant-design-vue 节
+- babel-runtime 6.26.0 — MIT — 本文件 MIT 节
+- core-js 2.6.12 — MIT — 本文件 MIT 节
+- babel-helper-vue-jsx-merge-props 2.0.3 — MIT — 本文件 MIT 节
+- classnames 2.5.1 — MIT — static/js/*.LICENSE.txt
+- object-assign 4.1.1 — MIT — static/js/*.LICENSE.txt
+- lodash 4.18.1 — MIT（含 OpenJS/Underscore 声明与 CC0 样例条款） — 本文件 lodash 节
+- add-dom-event-listener 1.1.0 — MIT — 本文件 MIT 节
+- component-classes 1.2.6 — MIT — 本文件 MIT 节
+- component-indexof 0.0.3 — MIT — 本文件 MIT 节
+- dom-align 1.12.4 — MIT — 本文件 MIT 节
+- vue-ref 2.0.0 — MIT — 本文件 MIT 节
+- postcss-value-parser 4.2.0 — MIT — 本文件 MIT 节
+
+vue3（Vue 3 Host 子应用）：
+- Vue 3.5.44（vue 及 @vue/reactivity、@vue/runtime-core、@vue/runtime-dom、@vue/shared） — MIT — static/js/lib-vue.*.js.LICENSE.txt
+- rspack-vue-loader 17.7.0（SFC runtime） — MIT — 本文件 MIT 节
+- @swc/helpers 0.5.23 — Apache-2.0 — 仓库根 NOTICE 第4.2节
+- postcss-value-parser 4.2.0 — MIT — 本文件 MIT 节
+
+未列入本表的说明：ant-design-vue 的其他未使用组件依赖（例如 moment、async-validator、
+resize-observer-polyfill 等）未进入本次产物；@rsbuild/core、@rspack/core 等仅构建期
+工具不进入浏览器产物。
+
+MIT License
+-----------
+Copyright 声明按组件分列如下：
+- Vue 2.7.16：Copyright (c) 2013-present, Yuxi (Evan) You（随包 LICENSE）；
+  Copyright (c) 2014-2023 Evan You（构建 banner）
+- Vue 3.5.44：Copyright (c) 2018-present Yuxi (Evan) You
+- vue-loader 15.11.1：Copyright (c) 2015-present Yuxi (Evan) You
+- rspack-vue-loader 17.7.0：Copyright (c) 2019-present, Yuxi (Evan) You
+- qiankun 2.8.1：Copyright (c) 2019 Kuitos
+- single-spa 5.9.5：Copyright (c) 2020 single-spa
+- import-html-entry 1.17.0：Copyright (c) 2018 Kuitos
+- @babel/runtime 7.29.7：Copyright (c) 2014-present Sebastian McKenzie and other contributors
+- babel-runtime 6.26.0：Copyright (c) 2014-present Sebastian McKenzie and other contributors
+- regenerator-runtime 0.11.1：Copyright (c) 2014-present, Facebook, Inc.
+- ajv 8.20.0：Copyright (c) 2015-2021 Evgeny Poberezkin
+- fast-deep-equal 3.1.3：Copyright (c) 2017 Evgeny Poberezkin
+- json-schema-traverse 1.0.0：Copyright (c) 2017 Evgeny Poberezkin
+- qrcode 1.5.4：Copyright (c) 2012 Ryan Day
+- core-js 2.6.12：Copyright (c) 2014-2020 Denis Pushkarev
+- core-js-pure 3.50.0：Copyright (c) 2013–2025 Denis Pushkarev (zloirock.ru)；Copyright (c) 2025–2026 CoreJS Company (core-js.io)
+- object-assign 4.1.1：Copyright (c) Sindre Sorhus <sindresorhus@gmail.com>
+- classnames 2.5.1：Copyright (c) 2018 Jed Watson
+- add-dom-event-listener 1.1.0：Copyright (c) 2014-present yiminghe
+- dom-align 1.12.4：Copyright (c) 2014-present yiminghe
+- component-classes 1.2.6：上游包仅在 package.json 声明 MIT，未附版权行
+- component-indexof 0.0.3：Copyright (c) 2012 TJ Holowaychuk
+- vue-ref 2.0.0：Copyright (c) 2018 tangjinzhou
+- babel-helper-vue-jsx-merge-props 2.0.3：上游 package.json 声明 MIT、author 为 Evan You；
+  未附 LICENSE 或版权行，不据作者字段补造版权声明
+- postcss-value-parser 4.2.0：Copyright (c) Bogdan Chadkin <trysound@yandex.ru>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+ant-design-vue 随包 LICENSE
+---------------------------
+MIT License
+
+Copyright (c) 2017-present ant-design-vue
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+MIT LICENSE
+
+Copyright (c) 2015-present Alipay.com, https://www.alipay.com/
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+lodash 随包 LICENSE
+-------------------
+Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
+
+Based on Underscore.js, copyright Jeremy Ashkenas,
+DocumentCloud and Investigative Reporters & Editors <http://underscorejs.org/>
+
+This software consists of voluntary contributions made by many
+individuals. For exact contribution history, see the revision history
+available at https://github.com/lodash/lodash
+
+The following license applies to all parts of this software except as
+documented below:
+
+====
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+====
+
+Copyright and related rights for sample code are waived via CC0. Sample
+code is defined as all source code displayed within the prose of the
+documentation.
+
+CC0: http://creativecommons.org/publicdomain/zero/1.0/
+
+====
+
+Files located in the node_modules and vendor directories are externally
+maintained libraries used by this software which have their own
+licenses; we recommend you read them, as their terms may differ from the
+terms above.
+
+dijkstrajs 随包 LICENSE
+-----------------------
+Dijkstra path-finding functions. Adapted from the Dijkstar Python project.
+
+Copyright (C) 2008
+  Wyatt Baldwin <self@wyattbaldwin.com>
+  All rights reserved
+
+Licensed under the MIT license.
+
+  http://www.opensource.org/licenses/mit-license.php
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+ISC License
+-----------
+适用组件：semver 7.8.5、Lucide 图标。
+
+Copyright (c) Isaac Z. Schlueter and Contributors
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
+IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+Lucide 图标版权声明：
+Copyright (c) for portions of Lucide are held by Cole Bemis 2013-2022 as part
+of Feather (MIT). All other copyright (c) for Lucide are held by Lucide
+Contributors 2022.
+
+BSD 3-Clause License
+--------------------
+适用组件：fast-uri 3.1.8（经 ajv 传递引入）。
+
+Copyright (c) 2011-2021, Gary Court until https://github.com/garycourt/uri-js/commit/a1acf730b4bba3f1097c9f52e7d9d3aba8cdcaae
+Copyright (c) 2021-present The Fastify team <https://github.com/fastify/fastify#team>
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+    * The names of any contributors may not be used to endorse or promote
+      products derived from this software without specific prior written
+      permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS AND CONTRIBUTORS BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+                                  *   *   *
+
+The complete list of contributors can be found at:
+- https://github.com/garycourt/uri-js/graphs/contributors
+
+Apache License 2.0
+------------------
+适用组件：@swc/helpers 0.5.23。
+Copyright 2024 SWC contributors.
+许可证正文见仓库根 NOTICE 第4.2节；本 NOTICE 与根文件随同一棵树
+分发。
+
+修改说明
+--------
+本项目未对上述组件打补丁、派生修改或复制改造；全部组件按其上游发布形态打包。
+
+完整组件清单、各许可证全文与上游声明见仓库根 NOTICE。

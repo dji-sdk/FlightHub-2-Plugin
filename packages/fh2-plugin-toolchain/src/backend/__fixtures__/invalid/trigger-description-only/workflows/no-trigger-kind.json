@@ -1,0 +1,7 @@
+{
+  "name": "no-trigger-kind",
+  "trigger": {
+    "description": "没有实际触发方式"
+  },
+  "steps": []
+}

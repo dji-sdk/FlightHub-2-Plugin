@@ -1,0 +1,8 @@
+{
+  "json.schemas": [
+    {
+      "fileMatch": ["**/fh2-plugin.json"],
+      "url": "./node_modules/fh2-plugin-sdk/dist/schema/manifest.schema.json"
+    }
+  ]
+}

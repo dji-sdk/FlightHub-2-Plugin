@@ -1,0 +1,8 @@
+{
+  "id": "example-event-1",
+  "type": "example.created",
+  "data": {
+    "record_key": "from-event-1",
+    "title": "示例事件"
+  }
+}

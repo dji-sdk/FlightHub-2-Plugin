@@ -1,0 +1,159 @@
+THIRD-PARTY-NOTICES — FH2 Web IDE
+================================
+
+适用说明
+--------
+Web IDE 现在由源码本地构建（`pnpm --filter fh2-plugin-toolchain build:ide`，Vite）。
+构建时本文件从 `ide/public/` 复制到产物根目录。
+
+当前 1.0.0 发行包 **不含 Web IDE 预构建产物**；本文件登记的是使用方本地构建时
+会打入 `dist/assets/*` 和语言服务 worker 的三方成分。使用方一旦构建并分发 Web IDE
+产物，仍须随附本文件及其要求的许可证文本，不能因为“本地构建”而省略归因义务。
+
+本文件覆盖 `ide/src` 实际 import 的第三方包：vue、pinia、@vueuse/core、
+@vicons/ionicons5、@imengyu/vue3-context-menu、monaco-editor、
+monaco-sql-languages、@xterm/xterm、@xterm/addon-fit、naive-ui、d3-dag、
+splitpanes、@dnd-kit/vue、@dnd-kit/dom、DOMPurify、marked，以及 TypeScript
+Compiler（ts.worker）。仅开发安装、未确认进入本地产物的包另列在文末。
+
+组件与版权
+----------
+- Vue 3.5.44（vue 及 @vue/*） — MIT — Copyright (c) 2018-present, Yuxi (Evan) You
+- pinia 3.0.4 — MIT — Copyright (c) 2019-present Eduardo San Martin Morote
+- @vueuse/core 13.9.0 — MIT — Copyright (c) 2019-PRESENT Anthony Fu
+- @vicons/ionicons5 0.13.0 — MIT — 包装包仅声明 MIT（作者 07akioni）；图标来自 Ionicons，Copyright (c) 2015-present Ionic (http://ionic.io/)
+- @imengyu/vue3-context-menu 1.5.6 — MIT — Copyright (c) 2021 梦欤
+- monaco-editor 0.52.2 — MIT — Copyright (c) 2016 - present Microsoft Corporation
+- monaco-sql-languages 1.2.1 — MIT — Copyright (c) Microsoft Corporation
+- @xterm/xterm 6.0.0 — MIT — Copyright (c) 2017-2019, The xterm.js authors；Copyright (c) 2014-2016, SourceLair Private Company；Copyright (c) 2012-2013, Christopher Jeffrey
+- @xterm/addon-fit 0.11.0 — MIT — Copyright (c) 2019, The xterm.js authors
+- naive-ui 2.45.3 — MIT — Copyright (c) 2021 TuSimple
+- d3-dag 1.2.2 — MIT — Copyright (c) 2018 Erik Brinkman
+- splitpanes 4.1.2 — MIT — Copyright (c) 2018 Antoni Andre
+- @dnd-kit/vue、@dnd-kit/dom 0.5.0 — MIT — Copyright (c) 2021, Claudéric Demers
+- marked 14.0.0 — MIT + Markdown BSD 附加段 — 见下方 marked 随包 LICENSE
+- DOMPurify 3.3.1 — Apache-2.0（本项目从 MPL-2.0 OR Apache-2.0 中选择） — Copyright 2025 Dr.-Ing. Mario Heiderich, Cure53
+- TypeScript Compiler 5.5.4（ts.worker） — Apache-2.0 — Copyright (c) Microsoft Corporation. All rights reserved.；上游 ThirdPartyNoticeText.txt 原文完整收录于仓库根 NOTICE 第5.1节
+
+MIT License
+-----------
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+marked 随包 LICENSE
+-------------------
+# License information
+
+## Contribution License Agreement
+
+If you contribute code to this project, you are implicitly allowing your code
+to be distributed under the MIT license. You are also implicitly verifying that
+all code is your original work. `</legalese>`
+
+## Marked
+
+Copyright (c) 2018+, MarkedJS (https://github.com/markedjs/)
+Copyright (c) 2011-2018, Christopher Jeffrey (https://github.com/chjj/)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+## Markdown
+
+Copyright © 2004, John Gruber
+http://daringfireball.net/
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+* Neither the name “Markdown” nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+This software is provided by the copyright holders and contributors “as is” and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall the copyright owner or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage.
+
+DOMPurify 许可声明
+------------------
+DOMPurify
+Copyright 2025 Dr.-Ing. Mario Heiderich, Cure53
+
+DOMPurify is free software; you can redistribute it and/or modify it under the
+terms of either:
+
+a) the Apache License Version 2.0, or
+b) the Mozilla Public License Version 2.0
+
+本项目按 Apache License Version 2.0 使用；Apache-2.0 正文见仓库根
+NOTICE 第4.2节。
+
+Unlicense
+---------
+适用组件：javascript-lp-solver 1.0.3（经 d3-dag 传递引入）。
+
+This is free and unencumbered software released into the public domain.
+
+Anyone is free to copy, modify, publish, use, compile, sell, or
+distribute this software, either in source code form or as a compiled
+binary, for any purpose, commercial or non-commercial, and by any
+means.
+
+In jurisdictions that recognize copyright laws, the author or authors
+of this software dedicate any and all copyright interest in the
+software to the public domain. We make this dedication for the benefit
+of the public at large and to the detriment of our heirs and
+successors. We intend this dedication to be an overt act of
+relinquishment in perpetuity of all present and future rights to this
+software under copyright law.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+For more information, please refer to <http://unlicense.org>
+
+仅开发链路、当前发行包不含的组件
+------------------------------------
+- jschardet 3.1.4 — LGPL-2.1+ — 经 monaco-languageclient 引入。它只在安装
+  monaco-languageclient 的开发依赖时出现；当前发行包不含 Web IDE 预构建产物，
+  因此不能声称它已随发行包分发。使用方本地构建 Web IDE 时，若该依赖进入本地产物，
+  应以其本地产物和随包 LICENSE 为准，独立安装、未修改，不修改其许可证与声明。
+
+分发提示
+--------
+本地构建并单独分发 Web IDE 产物时，除本文件外，还应随附仓库根
+`NOTICE` 中 TypeScript `ThirdPartyNoticeText.txt` 的完整原文（第5.1节）
+以及 Apache-2.0 正文（第4.2节）。

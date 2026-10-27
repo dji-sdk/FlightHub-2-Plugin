@@ -1,0 +1,26 @@
+{
+  "name": "cascade-ingest",
+  "description": "",
+  "trigger": {
+    "description": "只定时启:采集流程没有人工入口,start 端点回 403。",
+    "schedule": {
+      "intervalSec": 30,
+      "paused": true
+    }
+  },
+  "steps": [
+    {
+      "id": "ingest",
+      "description": "跑采集脚本。windowTo 显式取 run.now，避免依赖 ctx.now 注入；intervalSec 取运行周期。",
+      "action": "run_script",
+      "inputs": {
+        "script": { "const": "cascade-ingest" },
+        "connectorId": { "const": "traffic.connector.cascade" },
+        "windowTo": { "from": "run.now" },
+        "intervalSec": { "from": "run.intervalSec" }
+      },
+      "timeoutSec": 30,
+      "maxAttempts": 1
+    }
+  ]
+}

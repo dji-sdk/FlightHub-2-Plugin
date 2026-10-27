@@ -1,0 +1,6 @@
+{
+  "pluginId": "exp_invalid_trigger",
+  "name": "非法触发器",
+  "version": "0.1.0",
+  "flows": ["workflows/no-trigger-kind.json"]
+}

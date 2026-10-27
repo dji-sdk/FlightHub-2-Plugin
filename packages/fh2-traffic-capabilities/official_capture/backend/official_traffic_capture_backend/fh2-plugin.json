@@ -1,0 +1,96 @@
+{
+  "pluginId": "official_traffic_capture_backend",
+  "puid": "official_traffic_capture_backend:0.1.0",
+  "name": "交通违法抓拍",
+  "version": "0.1.0",
+  "description": "交通违法抓拍后端插件（schema.sql 驱动 TS 版）：schema.sql 只驱动运行时实体与 DDL。",
+  "contractsRange": ">=1.1.0 <2.0.0",
+  "allowlist": [
+    "data:read",
+    "data:write",
+    "media:read",
+    "media:write",
+    "flow:start",
+    "track:read",
+    "video:process",
+    "notify:publish"
+  ],
+  "flows": [
+    "workflows/postprocess.json"
+  ],
+  "connections": [],
+  "scripts": [
+    {
+      "description": "变道视频后处理的 Job Script（编排逻辑在 TS，平台只提供 Host 能力）",
+      "name": "lane-change-postprocess",
+      "path": "adapters/lane-change-postprocess.ts",
+      "entry": "handle",
+      "io": {
+        "inputs": [
+          {
+            "name": "event_id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "video_file_id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "video_object_key",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "outputs": [
+          {
+            "name": "event_id",
+            "type": "string"
+          },
+          {
+            "name": "post_status",
+            "type": "string"
+          },
+          {
+            "name": "reason",
+            "type": "string"
+          },
+          {
+            "name": "evidence_count",
+            "type": "number"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "description": "媒体库视频处理完毕，由变道和行人上路两个消费方并发处理；sub_file_type=0 只接收普通视频，不接收 HLS。",
+      "type": "media.video_created",
+      "match": {
+        "sub_file_type": "0"
+      },
+      "consumer": [
+        {
+          "handler": "events/media-video-created.ts",
+          "entry": "onVideoCreated"
+        },
+        {
+          "handler": "events/illegal-road-video-created.ts",
+          "entry": "onIllegalRoadVideoCreated"
+        }
+      ]
+    },
+    {
+      "description": "媒体库照片入库后，按 project_id、dock_sn 和拍摄时刻匹配行人上路 Tracking；不使用 match，以便在代码中只过滤缩略图。",
+      "type": "media.photo_created",
+      "consumer": [
+        {
+          "handler": "events/media-photo-created.ts",
+          "entry": "onPhotoCreated"
+        }
+      ]
+    }
+  ]
+}

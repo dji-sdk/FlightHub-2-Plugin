@@ -1,0 +1,165 @@
+{
+  "name": "patrol-capture",
+  "description": "违停巡逻抓拍流程：任务下发后等待起飞，登记并占用会话，完成初检、复检、返航和落地确认，最后回写事件状态。",
+  "trigger": {
+    "description": "支持平台任务通知触发；api 入口仅用于排障时手工重放。",
+    "bizNotify": {
+      "description": "平台任务下发通知入口。`biz_ext` 中的 `es-patrol` 既是开关也是参数容器；`task_uuid` 作为幂等键。",
+      "subscriber": "es-patrol",
+      "seed": ["taskUuid", "projectUuid", "dockSn", "waylineUuid", "occurredAt"],
+      "params": {
+        "recheck_delay_sec": { "as": "recheckDelaySec", "type": "number", "max": 1800 }
+      }
+    },
+    "api": {
+      "seed": ["taskUuid", "projectUuid", "dockSn", "waylineUuid", "occurredAt", "recheckDelaySec"]
+    }
+  },
+  "steps": [
+    {
+      "id": "airborne",
+      "action": "query_flight_task",
+      "inputs": {
+        "missionId": { "from": "trigger.taskUuid" },
+        "untilStatusIn": { "const": [2, 1, 4, 5, 7, 8] },
+        "everySec": { "const": 5 }
+      },
+      "timeoutSec": 900,
+      "description": "等待飞行任务进入执行中状态，确认飞机已起飞。"
+    },
+    {
+      "id": "spawn",
+      "action": "spawn_agent",
+      "needs": ["airborne"],
+      "when": { "field": "steps.airborne.taskStatus", "op": "eq", "value": 2 },
+      "inputs": {
+        "taskUuid": { "from": "trigger.taskUuid" },
+        "projectUuid": { "from": "trigger.projectUuid" },
+        "dockSn": { "from": "trigger.dockSn" },
+        "waylineUuid": { "from": "trigger.waylineUuid" },
+        "flightId": { "from": "trigger.taskUuid" }
+      },
+      "timeoutSec": 120,
+      "maxAttempts": 1,
+      "description": "登记会话并占用机场活跃位，启动执行会话并获取控制权；先占位再启动，避免资源冲突。"
+    },
+    {
+      "id": "phase1_done",
+      "action": "wait_signal",
+      "needs": ["spawn"],
+      "when": { "field": "steps.spawn.sessionId", "op": "present" },
+      "await": {
+        "signal": "phase1_done",
+        "timeoutSec": 2400,
+        "provides": [{ "key": "targetCount", "type": "number" }],
+        "interruptedBy": ["abort"]
+      },
+      "description": "等待初检阶段完成，所有目标完成识别并落库。"
+    },
+    {
+      "id": "recheck_gate",
+      "action": "wait_signal",
+      "needs": ["phase1_done"],
+      "await": {
+        "signal": "recheck_start",
+        "timeoutSecFrom": "trigger.recheckDelaySec",
+        "interruptedBy": ["abort"]
+      },
+      "description": "初检完成后的可配置悬停间隔，等满后进入复检。"
+    },
+    {
+      "id": "phase2_done",
+      "action": "wait_signal",
+      "needs": ["recheck_gate"],
+      "trigger": "allDone",
+      "when": {
+        "field": "steps.recheck_gate.$state",
+        "op": "in",
+        "value": ["timedOut", "succeeded"]
+      },
+      "await": {
+        "signal": "session_done",
+        "timeoutSec": 2400,
+        "provides": [
+          { "key": "completedCount", "type": "number" },
+          { "key": "failedCount", "type": "number" }
+        ],
+        "interruptedBy": ["abort"]
+      },
+      "description": "等待复检阶段完成，每个目标拍摄完成或判失败。"
+    },
+    {
+      "id": "cancel_gate",
+      "action": "wait_signal",
+      "needs": ["phase2_done"],
+      "trigger": "allDone",
+      "when": { "field": "steps.spawn.sessionId", "op": "present" },
+      "await": {
+        "signal": "cancel_return",
+        "timeoutSec": 30,
+        "interruptedBy": ["return_now", "abort"]
+      },
+      "description": "30 秒反悔窗口：超时返航、取消返航或立即返航。"
+    },
+    {
+      "id": "go_home",
+      "action": "return_home",
+      "needs": ["cancel_gate"],
+      "trigger": "allDone",
+      "when": {
+        "field": "steps.cancel_gate.$state",
+        "op": "in",
+        "value": ["timedOut", "interrupted"]
+      },
+      "inputs": {
+        "sessionId": { "from": "steps.spawn.sessionId" },
+        "flightId": { "from": "trigger.taskUuid" },
+        "dockSn": { "from": "trigger.dockSn" }
+      },
+      "timeoutSec": 60,
+      "description": "结束执行会话并下发返航。"
+    },
+    {
+      "id": "poll_landed",
+      "action": "query_flight_task",
+      "needs": ["go_home"],
+      "inputs": {
+        "missionId": { "from": "trigger.taskUuid" },
+        "untilStatusIn": { "const": [1, 4, 5, 7, 8] },
+        "everySec": { "const": 15 }
+      },
+      "timeoutSec": 1800,
+      "description": "轮询飞行任务到终态，确认飞机落地。"
+    },
+    {
+      "id": "mark_done",
+      "action": "update_event_status",
+      "needs": ["poll_landed"],
+      "when": { "field": "trigger.eventId", "op": "present" },
+      "inputs": {
+        "status": { "const": "completed" },
+        "eventId": { "from": "trigger.eventId" },
+        "flightMissionId": { "from": "trigger.taskUuid" }
+      },
+      "description": "成功收尾：把事件状态写成 completed。"
+    },
+    {
+      "id": "close_error",
+      "action": "update_event_status",
+      "needs": ["airborne", "spawn", "phase1_done", "recheck_gate", "phase2_done", "go_home", "poll_landed", "mark_done"],
+      "trigger": "allDone",
+      "when": {
+        "and": [
+          { "field": "trigger.eventId", "op": "present" },
+          { "field": "steps.mark_done.eventStatus", "op": "blank" }
+        ]
+      },
+      "inputs": {
+        "status": { "const": "terminated" },
+        "eventId": { "from": "trigger.eventId" },
+        "flightMissionId": { "from": "trigger.taskUuid" }
+      },
+      "description": "失败收尾：主干任一步失败时把事件状态写成 terminated。"
+    }
+  ]
+}

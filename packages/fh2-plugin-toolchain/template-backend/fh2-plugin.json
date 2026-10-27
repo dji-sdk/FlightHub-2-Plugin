@@ -1,0 +1,37 @@
+{
+  "pluginId": "__BACKEND_PLUGIN_ID__",
+  "name": "__BACKEND_PLUGIN_NAME__",
+  "version": "0.1.0",
+  "description": "后端插件引导示例(TS 源码):Handler / Event / Workflow Adapter 三种入口走同一条记录生命周期,build 后由 esbuild 打成 Worker 可执行的普通 JS Bundle。",
+  "contractsRange": ">=1.1.0 <2.0.0",
+  "allowlist": ["data:read", "data:write"],
+  "flows": ["workflows/example-flow.json"],
+  "connections": [],
+  "scripts": [
+    {
+      "description": "记录写入的 Workflow Adapter:与 HTTP Handler 复用同一份 shared 逻辑,靠 record_key 唯一键幂等。",
+      "name": "example-script",
+      "path": "adapters/example-script.ts",
+      "entry": "handle",
+      "io": {
+        "inputs": [
+          { "name": "record_key", "type": "string", "required": true },
+          { "name": "title", "type": "string", "required": true }
+        ],
+        "outputs": [
+          { "name": "id", "type": "string" },
+          { "name": "created", "type": "bool" }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "description": "消息队列里来一条 example.created 就幂等地落一条记录(source=event)。",
+      "type": "example.created",
+      "consumer": [
+        { "handler": "events/example-created.ts", "entry": "onExampleCreated" }
+      ]
+    }
+  ]
+}

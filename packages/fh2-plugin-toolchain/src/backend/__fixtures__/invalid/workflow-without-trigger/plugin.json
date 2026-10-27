@@ -1,0 +1,6 @@
+{
+  "pluginId": "exp_invalid_workflow",
+  "name": "非法流程",
+  "version": "0.1.0",
+  "flows": ["workflows/missing-trigger.json"]
+}

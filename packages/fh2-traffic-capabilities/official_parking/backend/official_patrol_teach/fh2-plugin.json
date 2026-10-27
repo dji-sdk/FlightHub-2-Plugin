@@ -1,0 +1,16 @@
+{
+  "pluginId": "official_patrol_teach",
+  "name": "示教复飞（录制期）",
+  "version": "0.1.1",
+  "description": "示教复飞录制期插件的 TypeScript 版。实体定义由 schema.sql 单点推导，Handler 使用字符串 Store API。",
+  "contractsRange": ">=1.1.0 <2.0.0",
+  "allowlist": [
+    "data:read",
+    "data:write",
+    "wayline:generate",
+    "screenshot:signurl",
+    "screenshot:issueupload"
+  ],
+  "flows": [],
+  "events": []
+}

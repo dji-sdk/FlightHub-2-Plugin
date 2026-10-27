@@ -1,0 +1,21 @@
+# 统一换行符：所有文本文件按 LF 提交与检出。
+# Windows clone（默认 autocrlf=true）不会把文本文件转成 CRLF，
+# 保护 runtime-assets / developer-runtime 的字节级 sha256 校验（FH2_ASSET_FILE_DIGEST）。
+* text=auto eol=lf
+
+# 二进制资源不做任何转换
+*.png binary
+*.gif binary
+*.ico binary
+*.jpeg binary
+*.jpg binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.mp3 binary
+*.wav binary
+*.ogg binary
+*.mp4 binary
+*.webm binary

@@ -1,0 +1,11 @@
+{
+  "pluginId": "exp_invalid_event",
+  "name": "非法事件",
+  "version": "0.1.0",
+  "events": [
+    {
+      "type": "example.created",
+      "handler": "events/example.js"
+    }
+  ]
+}

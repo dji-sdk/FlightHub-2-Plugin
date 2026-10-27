@@ -1,0 +1,6 @@
+{
+  "pluginId": "exp_invalid_handlers",
+  "name": "非法清单",
+  "version": "0.1.0",
+  "handlers": []
+}

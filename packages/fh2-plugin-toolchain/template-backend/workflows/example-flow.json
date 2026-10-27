@@ -1,0 +1,33 @@
+{
+  "name": "example-flow",
+  "description": "引导示例流程:两步演示显式接线与幂等重放 —— 第一步从 trigger 接参建记录,第二步消费第一步的出参再跑一次,验证同一 record_key 不产生第二条。",
+  "trigger": {
+    "api": {
+      "description": "HTTP 启动:seed 里的键就是 trigger.* 根上会出现的键。",
+      "seed": ["record_key", "title"]
+    }
+  },
+  "steps": [
+    {
+      "id": "create-record",
+      "description": "从 trigger 接 record_key/title,跑 example-script 建一条记录。",
+      "action": "run_script",
+      "inputs": {
+        "script": { "const": "example-script" },
+        "record_key": { "from": "trigger.record_key" },
+        "title": { "from": "trigger.title" }
+      }
+    },
+    {
+      "id": "replay-idempotency",
+      "description": "把第一步产出的 id 作为 record_key 再跑一遍:同一键重放应回 created=false —— 这一步的出参就是幂等性的可观测证据。",
+      "action": "run_script",
+      "needs": ["create-record"],
+      "inputs": {
+        "script": { "const": "example-script" },
+        "record_key": { "from": "steps.create-record.id" },
+        "title": { "from": "trigger.title" }
+      }
+    }
+  ]
+}
